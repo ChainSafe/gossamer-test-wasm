@@ -1,9 +1,7 @@
-pub use rstd;
-
 extern {
     fn ext_print_num(data: i64);
-    fn ext_print_utf8(offset: i32, len: i32);
-    fn ext_print_hex(offset: i32, len: i32);
+    fn ext_print_utf8(offset: i32, size: i32);
+    fn ext_print_hex(offset: i32, size: i32);
     fn ext_malloc(size: i32) -> i32;
     fn ext_free(addr: i32);
     fn ext_get_storage_into(key_data: i32, key_len: i32, value_data: i32, value_len: i32, value_offset: i32) -> i32;
@@ -27,10 +25,9 @@ pub extern fn test_ext_print_num(data: i64) {
 }
 
 #[no_mangle]
-pub extern fn test_ext_print_utf8() {
-	let message = rstd::alloc::format!("{}", "hello world!");
+pub extern fn test_ext_print_utf8(offset: i32, size: i32) {
 	unsafe {
-		ext_print_utf8(message.as_ptr() as i32, message.len() as i32);
+		ext_print_utf8(offset, size);
 	}
 }
 

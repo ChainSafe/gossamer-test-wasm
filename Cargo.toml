@@ -6,6 +6,3 @@ edition = "2018"
 
 [lib]
 crate-type = ["cdylib"]
-
-[dependencies]
-rstd = { package = "sr-std", path = "/home/elizabeth/substrate/core/sr-std", default-features = false }
