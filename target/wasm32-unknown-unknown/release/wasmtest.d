@@ -1,0 +1,1 @@
+/home/elizabeth/go/src/github.com/ChainSafe/gossamer/runtime/test_wasm/target/wasm32-unknown-unknown/release/wasmtest.wasm: /home/elizabeth/go/src/github.com/ChainSafe/gossamer/runtime/test_wasm/src/main.rs

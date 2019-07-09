@@ -1,0 +1,1 @@
+/home/elizabeth/go/src/github.com/ChainSafe/gossamer/runtime/test_wasm/target/wasm32-unknown-unknown/release/test_wasm.wasm: /home/elizabeth/go/src/github.com/ChainSafe/gossamer/runtime/test_wasm/src/lib.rs /home/elizabeth/substrate/core/sr-std/build.rs /home/elizabeth/substrate/core/sr-std/src/../without_std.rs /home/elizabeth/substrate/core/sr-std/src/lib.rs
