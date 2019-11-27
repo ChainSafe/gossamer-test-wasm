@@ -17,6 +17,7 @@ extern {
     fn ext_twox_128(data: i32, length: i32, out: i32);
     fn ext_keccak_256(data: i32, length: i32, out: i32);
     fn ext_ed25519_generate(id_data: i32, seed: i32, seed_len: i32, out: i32);
+    fn ext_ed25519_sign(id_data: i32, pubkey_data: i32, msg_data: i32, msg_len: i32, out: i32) -> i32;
     fn ext_ed25519_verify(msg_data: i32, msg_len: i32, sig_data: i32, pubkey_data: i32) -> i32;
     fn ext_sr25519_generate(id_data: i32, seed: i32, seed_len: i32, out: i32);
     fn ext_sr25519_sign(id_data: i32, pubkey_data: i32, msg_data: i32, msg_len: i32, out: i32) -> i32;
@@ -142,6 +143,13 @@ pub extern fn test_ext_ed25519_verify(msg_data: i32, msg_len: i32, sig_data: i32
    	unsafe {
    		ext_ed25519_verify(msg_data, msg_len, sig_data, pubkey_data)
    	}
+}
+
+#[no_mangle]
+pub extern fn test_ext_ed25519_sign(id_data: i32, pubkey_data: i32, msg_data: i32, msg_len: i32, out: i32) -> i32 {
+    unsafe {
+      ext_ed25519_sign(id_data, pubkey_data, msg_data, msg_len, out)
+    }
 }
 
 #[no_mangle]
