@@ -31,6 +31,8 @@ extern {
     fn ext_local_storage_compare_and_set(kind: i32, key: i32, key_len: i32, old_value: i32, old_value_len: i32, new_value: i32, new_value_len: i32) -> i32;
     fn ext_network_state(written_out: i32) -> i32;
     fn ext_submit_transaction(data: i32, len: i32) -> i32;
+    fn ext_get_child_storage_into(storage_key_data: i32, storage_key_len: i32, key_data: i32, key_len: i32, value_data: i32, value_len: i32, value_offset: i32) -> i32;
+    fn ext_set_child_storage(storage_key_data: i32, storage_key_len: i32, key_data: i32, key_len: i32, value_data: i32, value_len: i32);
 }
 
 #[no_mangle]
@@ -254,5 +256,19 @@ pub extern fn test_ext_network_state(written_out: i32) -> i32 {
 pub extern fn test_ext_submit_transaction(data: i32, len: i32) -> i32 {
     unsafe {
       ext_submit_transaction(data, len)
+    }
+}
+
+#[no_mangle]
+pub extern fn test_ext_get_child_storage_into(storage_key_data: i32, storage_key_len: i32, key_data: i32, key_len: i32, value_data: i32, value_len: i32, value_offset: i32) -> i32 {
+    unsafe {
+      ext_get_child_storage_into(storage_key_data, storage_key_len, key_data, key_len, value_data, value_len, value_offset)
+    }
+}
+
+#[no_mangle]
+pub extern fn test_ext_set_child_storage(storage_key_data: i32, storage_key_len: i32, key_data: i32, key_len: i32, value_data: i32, value_len: i32) {
+    unsafe {
+      ext_set_child_storage(storage_key_data, storage_key_len, key_data, key_len, value_data, value_len)
     }
 }
