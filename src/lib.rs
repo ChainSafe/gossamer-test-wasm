@@ -1,5 +1,6 @@
 use std::os::raw::{c_void};
 use std::mem;
+use std::ptr;
 
 extern {
     fn ext_print_num(data: i64);
@@ -69,9 +70,15 @@ pub extern fn mock_execute_block() {
   unsafe {
     let key = [77u8; 16];
     let value = [0u8; 4];
+
     let key_ptr = alloc(key.len());
+    ptr::copy(&key, key_ptr as *mut [u8; 16], key.len());
     let value_ptr = alloc(value.len());
+
     ext_set_storage(key_ptr as i32, key.len() as i32, value_ptr as i32, value.len() as i32);
+
+    dealloc(key_ptr, key.len());
+    dealloc(value_ptr, value.len());
   }
 }
 
