@@ -36,8 +36,8 @@ extern {
     fn ext_submit_transaction(data: i32, len: i32) -> i32;
     fn ext_get_child_storage_into(storage_key_data: i32, storage_key_len: i32, key_data: i32, key_len: i32, value_data: i32, value_len: i32, value_offset: i32) -> i32;
     fn ext_set_child_storage(storage_key_data: i32, storage_key_len: i32, key_data: i32, key_len: i32, value_data: i32, value_len: i32);
-    fn ext_kill_child_storage(a: i32, b: i32, c: i32);
-    fn ext_sandbox_memory_new(a: i32, b: i32, c: i32) -> i32;
+    fn ext_kill_child_storage(a: i32, b: i32);
+    fn ext_sandbox_memory_new(a: i32, b: i32) -> i32;
     fn ext_sandbox_memory_teardown(a: i32);
     fn ext_sandbox_instantiate(a: i32, b: i32, c: i32, d: i32, e: i32, f: i32) -> i32;
     fn ext_sandbox_invoke(a: i32, b: i32, c: i32, d: i32, e: i32, f: i32, g: i32, h: i32) -> i32;
@@ -83,16 +83,16 @@ pub extern fn test_ext_log(a: i32, b: i32, c: i32, d: i32, e: i32) {
 }
 
 #[no_mangle]
-pub extern fn test_ext_kill_child_storage(a: i32, b: i32, c: i32) {
+pub extern fn test_ext_kill_child_storage(a: i32, b: i32) {
   unsafe {
-    ext_kill_child_storage(a, b, c);
+    ext_kill_child_storage(a, b);
   }
 }
 
 #[no_mangle]
-pub extern fn test_ext_sandbox_memory_new(a: i32, b: i32, c: i32) -> i32 {
+pub extern fn test_ext_sandbox_memory_new(a: i32, b: i32) -> i32 {
   unsafe {
-    ext_sandbox_memory_new(a, b, c)
+    ext_sandbox_memory_new(a, b)
   }
 }
 
