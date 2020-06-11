@@ -1,3 +1,6 @@
+use std::os::raw::{c_void};
+use std::mem;
+
 extern {
     fn ext_print_num(data: i64);
     fn ext_print_utf8(offset: i32, size: i32);
@@ -33,6 +36,134 @@ extern {
     fn ext_submit_transaction(data: i32, len: i32) -> i32;
     fn ext_get_child_storage_into(storage_key_data: i32, storage_key_len: i32, key_data: i32, key_len: i32, value_data: i32, value_len: i32, value_offset: i32) -> i32;
     fn ext_set_child_storage(storage_key_data: i32, storage_key_len: i32, key_data: i32, key_len: i32, value_data: i32, value_len: i32);
+    fn ext_kill_child_storage(a: i32, b: i32, c: i32);
+    fn ext_sandbox_memory_new(a: i32, b: i32, c: i32) -> i32;
+    fn ext_sandbox_memory_teardown(a: i32);
+    fn ext_sandbox_instantiate(a: i32, b: i32, c: i32, d: i32, e: i32, f: i32) -> i32;
+    fn ext_sandbox_invoke(a: i32, b: i32, c: i32, d: i32, e: i32, f: i32, g: i32, h: i32) -> i32;
+    fn ext_sandbox_instance_teardown(a: i32);
+    fn ext_get_allocated_child_storage(a: i32, b: i32, c: i32, d: i32, e: i32) -> i32;
+    fn ext_child_storage_root(a: i32, b: i32, c: i32) -> i32;
+    fn ext_clear_child_storage(a: i32, b: i32, c: i32, d: i32);
+    fn ext_secp256k1_ecdsa_recover_compressed(a: i32, b: i32, c: i32) -> i32;
+    fn ext_sandbox_memory_get(a: i32, b: i32, c: i32, d: i32) -> i32;
+    fn ext_sandbox_memory_set(a: i32, b: i32, c: i32, d: i32) -> i32;
+    fn ext_log(a: i32, b: i32, c: i32, d: i32, e: i32);
+}
+
+fn alloc(size: usize) -> *mut c_void {
+    let mut buf = Vec::with_capacity(size);
+    let ptr = buf.as_mut_ptr();
+    mem::forget(buf);
+    return ptr as *mut c_void;
+}
+
+fn dealloc(ptr: *mut c_void, cap: usize) {
+    unsafe {
+        let _buf = Vec::from_raw_parts(ptr, 0, cap);
+    }
+}
+
+#[no_mangle]
+pub extern fn mock_execute_block() {
+  unsafe {
+    let key = [77u8; 16];
+    let value = [0u8; 4];
+    let key_ptr = alloc(key.len());
+    let value_ptr = alloc(value.len());
+    ext_set_storage(key_ptr as i32, key.len() as i32, value_ptr as i32, value.len() as i32);
+  }
+}
+
+#[no_mangle]
+pub extern fn test_ext_log(a: i32, b: i32, c: i32, d: i32, e: i32) {
+  unsafe {
+    ext_log(a, b, c, d, e);
+  }
+}
+
+#[no_mangle]
+pub extern fn test_ext_kill_child_storage(a: i32, b: i32, c: i32) {
+  unsafe {
+    ext_kill_child_storage(a, b, c);
+  }
+}
+
+#[no_mangle]
+pub extern fn test_ext_sandbox_memory_new(a: i32, b: i32, c: i32) -> i32 {
+  unsafe {
+    ext_sandbox_memory_new(a, b, c)
+  }
+}
+
+#[no_mangle]
+pub extern fn test_ext_sandbox_memory_teardown(a: i32) {
+  unsafe {
+    ext_sandbox_memory_teardown(a);
+  }
+}
+
+#[no_mangle]
+pub extern fn test_ext_sandbox_instantiate(a: i32, b: i32, c: i32, d: i32, e: i32, f: i32) -> i32 {
+  unsafe {
+    ext_sandbox_instantiate(a, b, c, d, e, f)
+  }
+}
+
+#[no_mangle]
+pub extern fn test_ext_sandbox_invoke(a: i32, b: i32, c: i32, d: i32, e: i32, f: i32, g: i32, h: i32) -> i32 {
+  unsafe {
+    ext_sandbox_invoke(a, b, c, d, e, f, g, h)
+  }
+}
+
+#[no_mangle]
+pub extern fn test_ext_sandbox_instance_teardown(a: i32) {
+  unsafe {
+    ext_sandbox_instance_teardown(a);
+  }
+}
+
+#[no_mangle]
+pub extern fn test_ext_get_allocated_child_storage(a: i32, b: i32, c: i32, d: i32, e: i32) -> i32 {
+  unsafe {
+    ext_get_allocated_child_storage(a, b, c, d, e)
+  }
+}
+
+#[no_mangle]
+pub extern fn test_ext_child_storage_root(a: i32, b: i32, c: i32) -> i32 {
+  unsafe {
+    ext_child_storage_root(a, b, c)
+  }
+}
+
+#[no_mangle]
+pub extern fn test_ext_clear_child_storage(a: i32, b: i32, c: i32, d: i32) {
+  unsafe {
+    ext_clear_child_storage(a, b, c, d);
+  }
+}
+
+#[no_mangle]
+pub extern fn test_ext_secp256k1_ecdsa_recover_compressed(a: i32, b: i32, c: i32) -> i32 {
+  unsafe {
+    ext_secp256k1_ecdsa_recover_compressed(a, b, c)
+  }
+}
+
+#[no_mangle]
+pub extern fn test_ext_sandbox_memory_get(a: i32, b: i32, c: i32, d: i32) -> i32 {
+  unsafe {
+    ext_sandbox_memory_get(a, b, c, d)
+  }
+}
+
+#[no_mangle]
+pub extern fn test_ext_sandbox_memory_set(a: i32, b: i32, c: i32, d: i32) -> i32 {
+  unsafe {
+    ext_sandbox_memory_set(a, b, c, d)
+  }
 }
 
 #[no_mangle]
