@@ -79,6 +79,14 @@ pub extern fn mock_execute_block() {
 
     dealloc(key_ptr, key.len());
     dealloc(value_ptr, value.len());
+
+    let data = b"System Number";
+    let data_ptr = alloc(data.len());
+    ptr::copy(&data, data_ptr as *mut &[u8; 13], data.len());
+
+    let out = alloc(16);
+    ext_twox_128(data_ptr as i32, data.len() as i32, out as i32);
+    let hash = out as *mut [u8; 16];
   }
 }
 
