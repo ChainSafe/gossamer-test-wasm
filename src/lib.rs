@@ -92,7 +92,7 @@ pub extern fn mock_execute_block() {
     let value_ptr = alloc(value.len());
     ptr::copy(&value, value_ptr as *mut [u8; 4], value.len());
 
-    ext_set_storage(out as i32, 16, value_ptr as i32, value.len() as i32);
+    ext_set_storage(hash as i32, 16, value_ptr as i32, value.len() as i32);
     dealloc(out, 16);
   }
 }
