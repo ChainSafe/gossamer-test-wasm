@@ -19,6 +19,7 @@ extern {
     fn ext_blake2_256(data: i32, length: i32, out: i32);
     fn ext_twox_64(data: i32, length: i32, out: i32);
     fn ext_twox_128(data: i32, length: i32, out: i32);
+    fn ext_twox_256(data: i32, length: i32, out: i32);
     fn ext_keccak_256(data: i32, length: i32, out: i32);
     fn ext_ed25519_generate(id_data: i32, seed: i32, seed_len: i32, out: i32);
     fn ext_ed25519_sign(id_data: i32, pubkey_data: i32, msg_data: i32, msg_len: i32, out: i32) -> i32;
@@ -327,6 +328,13 @@ pub extern fn test_ext_twox_128(data: i32, length: i32, out: i32) {
    	unsafe {
    		ext_twox_128(data, length, out)
    	}
+}
+
+#[no_mangle]
+pub extern fn test_ext_twox_256(data: i32, length: i32, out: i32) {
+    unsafe {
+      ext_twox_256(data, length, out)
+    }
 }
 
 #[no_mangle]
